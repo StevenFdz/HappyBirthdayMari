@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Cumpleaños ❤️</title>
+
+  <!-- Fuentes bonitas desde Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: #fff0f5;
+      color: #3b1f2b;
+      overflow-x: hidden;
+    }
+
+    .music-button {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 1000;
+      border: none;
+      background: rgba(255, 255, 255, 0.88);
+      color: #e64988;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(230, 73, 136, 0.28);
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .music-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(230, 73, 136, 0.38);
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .floating-hearts span {
+      position: absolute;
+      bottom: -80px;
+      color: rgba(230, 73, 136, 0.22);
+      font-size: 34px;
+      animation: floatHeart linear infinite;
+    }
+
+    .floating-hearts span:nth-child(1) { left: 8%; animation-duration: 13s; animation-delay: 0s; font-size: 28px; }
+    .floating-hearts span:nth-child(2) { left: 18%; animation-duration: 17s; animation-delay: 2s; font-size: 42px; }
+    .floating-hearts span:nth-child(3) { left: 31%; animation-duration: 15s; animation-delay: 4s; font-size: 24px; }
+    .floating-hearts span:nth-child(4) { left: 47%; animation-duration: 19s; animation-delay: 1s; font-size: 46px; }
+    .floating-hearts span:nth-child(5) { left: 61%; animation-duration: 14s; animation-delay: 5s; font-size: 30px; }
+    .floating-hearts span:nth-child(6) { left: 76%; animation-duration: 18s; animation-delay: 3s; font-size: 38px; }
+    .floating-hearts span:nth-child(7) { left: 90%; animation-duration: 16s; animation-delay: 6s; font-size: 26px; }
+    .floating-hearts span:nth-child(8) { left: 38%; animation-duration: 22s; animation-delay: 8s; font-size: 52px; }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .section::before,
+    .section::after {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      filter: blur(6px);
+      opacity: 0.45;
+      animation: pulseGlow 7s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    .section::before {
+      top: 8%;
+      left: -80px;
+      background: #ffc2dc;
+    }
+
+    .section::after {
+      bottom: 7%;
+      right: -90px;
+      background: #fff0a8;
+      animation-delay: 1.5s;
+    }
+
+    .content {
+      max-width: 850px;
+      opacity: 0;
+      transform: translateY(45px) scale(0.98);
+      transition: opacity 0.95s ease, transform 0.95s ease;
+    }
+
+    .content.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .script-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(4rem, 11vw, 8rem);
+      font-weight: 400;
+      color: #e64988;
+      line-height: 0.95;
+      margin-bottom: 20px;
+      text-shadow: 0 10px 30px rgba(230, 73, 136, 0.18);
+    }
+
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 8vw, 5.8rem);
+      font-weight: 400;
+      color: #d6336c;
+      margin-bottom: 18px;
+    }
+
+    p {
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      line-height: 1.9;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .small-label {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.62);
+      color: #c2255c;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 10px 25px rgba(214, 51, 108, 0.14);
+    }
+
+    .hero { background: linear-gradient(135deg, #ffd6e8, #fff0f5, #fff7d6); }
+    .love { background: linear-gradient(135deg, #ffe3ec, #fff5f8); }
+    .promise { background: linear-gradient(135deg, #fff7db, #ffe3f0); }
+    .reasons { background: linear-gradient(135deg, #fff0f5, #ffe6ee); }
+    .letter { background: linear-gradient(135deg, #fff5f8, #ffe8f1, #fff7db); }
+    .gallery-section { background: linear-gradient(135deg, #fff0f5, #ffe3ec, #fff7db); }
+    .her-photos { background: linear-gradient(135deg, #fffaf0, #ffe3ec, #fff0f5); }
+    .baby-photos { background: linear-gradient(135deg, #fff7db, #ffe3ec, #fff0f5); }
+    .wish { background: linear-gradient(135deg, #ffe8f1, #fffaf0); }
+    .final { background: linear-gradient(135deg, #ffd6e8, #fff0f5); }
+
+    .photo-frame {
+      width: min(85vw, 330px);
+      height: 420px;
+      margin: 34px auto;
+      border-radius: 32px;
+      overflow: hidden;
+      border: 9px solid rgba(255,255,255,0.9);
+      box-shadow: 0 24px 60px rgba(214, 51, 108, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e64988;
+      font-weight: 700;
+      background: rgba(255,255,255,0.45);
+      transform: rotate(-1.5deg);
+      animation: softFloat 4.5s ease-in-out infinite;
+    }
+
+    .photo-frame img,
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .quote-box,
+    .letter-box {
+      margin: 34px auto 0;
+      max-width: 720px;
+      padding: 30px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.62);
+      box-shadow: 0 20px 50px rgba(214, 51, 108, 0.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .letter-text {
+      min-height: 170px;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: #e64988;
+      margin-left: 4px;
+      vertical-align: -3px;
+      animation: blink 0.8s infinite;
+    }
+
+    .reasons-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 35px;
+    }
+
+    .reason-card {
+      min-height: 165px;
+      padding: 24px 18px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.62);
+      box-shadow: 0 16px 40px rgba(214, 51, 108, 0.13);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.25s ease;
+    }
+
+    .reason-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .reason-card .icon {
+      font-size: 2rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .gallery-card {
+      height: 240px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #d6336c;
+      box-shadow: 0 18px 42px rgba(214, 51, 108, 0.15);
+      overflow: hidden;
+      border: 4px solid rgba(255,255,255,0.72);
+    }
+
+    .gallery-card.tall {
+      height: 330px;
+      border-radius: 32px;
+    }
+
+    .love-button {
+      margin-top: 28px;
+      border: none;
+      background: linear-gradient(135deg, #e64988, #ff8fab);
+      color: white;
+      padding: 15px 26px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(230, 73, 136, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .love-button:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 20px 45px rgba(230, 73, 136, 0.45);
+    }
+
+    .burst-heart {
+      position: fixed;
+      left: 50%;
+      bottom: 70px;
+      pointer-events: none;
+      z-index: 999;
+      font-size: 28px;
+      animation: burst 1.8s ease-out forwards;
+    }
+
+    .heart {
+      font-size: 2.4rem;
+      color: #e64988;
+      animation: heartbeat 1.7s ease-in-out infinite;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #c2255c;
+      font-weight: 700;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.45; }
+      50% { transform: translateY(-55vh) translateX(35px) rotate(18deg); }
+      100% { transform: translateY(-115vh) translateX(-30px) rotate(45deg); opacity: 0; }
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(1); opacity: 0.28; }
+      to { transform: scale(1.22); opacity: 0.55; }
+    }
+
+    @keyframes softFloat {
+      0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      35% { transform: scale(1.18); }
+      55% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -8px); }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    @keyframes burst {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.8) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(1.8) rotate(var(--r));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 75px 18px; }
+      .reasons-list, .gallery { grid-template-columns: 1fr; }
+      .gallery-card { height: 310px; }
+      .photo-frame { height: 390px; }
+      .letter-text { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Corazones flotantes de fondo -->
+  <div class="floating-hearts">
+    <span>♥</span><span>♡</span><span>♥</span><span>♡</span>
+    <span>♥</span><span>♡</span><span>♥</span><span>♡</span>
+  </div>
+
+  <!-- Música -->
+  <audio id="song" src="Alphaville - Forever Young.mp3" loop></audio>
+  <button class="music-button" id="btnMusic">▶ Música</button>
+
+  <!-- HERO -->
+  <section class="section hero">
+    <div class="content">
+      <span class="small-label">El mejor día del año llegó</span>
+      <h1 class="script-title">Feliz Cumpleaños</h1>
+      <p>Hoy no es un día cualquiera… hoy nació la persona que hace mi mundo mucho más bonito.</p>
+
+      <div class="photo-frame">
+        <img src="guapa.jpg" alt="Foto principal" /> 
+      </div>
+    </div>
+    <div class="scroll-hint">Desliza ↓</div>
+  </section>
+
+  <!-- MENSAJE -->
+  <section class="section love">
+    <div class="content">
+      <span class="small-label">Para ti</span>
+      <h2>Mi persona favorita</h2>
+      <p>Gracias por existir, por tu sonrisa, por tu forma de ser y por hacer que cada día a tu lado tenga algo especial. Desde que tuve tu presencia junto a mí no he podido superar el sentimiento tan lindo que genera estar cerca de ti. </p>
+      <p>Eres esa persona que llegó sin hacer ruido, pero terminó llenándolo todo de luz.</p>
+      <p class="heart">💖</p>
+    </div>
+  </section>
+
+  <!-- PROMESA -->
+  <section class="section promise">
+    <div class="content">
+      <span class="small-label">Lo que deseo para ti</span>
+      <h2>Que la vida te abrace bonito</h2>
+      <div class="quote-box">
+        <p>Que este año lluevan bendiciones para la princesa. Que todas las metas salgan, que sigas creciendo, aprendiendo, descubriendo. Que esa sonrisa tenga mil razones para seguir ahí y tu esencia se fortalezca cada vez más</p>
+        <p>Y ojalá yo pueda estar ahí, celebrando contigo cada pequeño momento de tu vida. Para las buenas y malas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTA CON EFECTO MAQUINA DE ESCRIBIR -->
+  <section class="section letter">
+    <div class="content">
+      <span class="small-label">Una pequeña carta</span>
+      <h2>Hay algo que quiero decirte</h2>
+      <div class="letter-box">
+        <p class="letter-text" id="typewriterText"></p><span class="cursor"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAZONES -->
+  <section class="section reasons">
+    <div class="content">
+      <span class="small-label">Pequeñas razones</span>
+      <h2>Por esto te amo tanto</h2>
+      <p>No hace falta una lista para saberlo, pero aun así… aquí van algunas razones.</p>
+
+      <div class="reasons-list">
+        <div class="reason-card"><div class="icon">🌷</div><strong>Tu forma de ser</strong><span>Porque ni en 8142 billones de personas hay alguien como tú.</span></div>
+        <div class="reason-card"><div class="icon">✨</div><strong>Tu risa</strong><span>Porque no hay chanchito que suene más lindo</span></div>
+        <div class="reason-card"><div class="icon">🤍</div><strong>Tu compañía</strong><span>Porque contigo hasta lo simple se siente especial.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="section gallery-section">
+    <div class="content">
+      <span class="small-label">Nuestros recuerdos</span>
+      <h2>Nuestros momentos</h2>
+      <p>Se han creado poco a poco y anhelo que vengan más</p>
+
+      <div class="gallery">
+        <div class="gallery-card"> <img src="beso.jpg" alt="Recuerdo 1" /> </div>
+        <div class="gallery-card"><img src="nos2.jpg" alt="Recuerdo 2"/> </div>
+        <div class="gallery-card"><img src="nos4.jpg" alt="Recuerdo 3" /> </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CRECIMIENTO (FOTOS DE BEBÉ) -->
+  <section class="section baby-photos">
+    <div class="content">
+      <span class="small-label">Tu historia</span>
+      <h2>Esa niña ha crecido tanto</h2>
+      <p>Nunca dejaras de ser esa bebé tan linda de las fotos pero ahora...la transformaste en una mujer increíble</p>
+
+      <div class="gallery">
+        <div class="gallery-card tall"><img src="suerte.jpg" alt="Bebé 1" /> </div>
+        <div class="gallery-card tall"> <img src="mono.jpg" alt="Bebé 2" /> </div>
+        <div class="gallery-card tall"> <img src="primera.jpg" alt="Bebé 3" /> </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOTOS DE ELLA -->
+  <section class="section her-photos">
+    <div class="content">
+      <span class="small-label">Solo tú</span>
+      <h2>Admiremos a la cumpleañera</h2>
+      <p>Quiero que aprecies como hoy la mujer más hermosa del mundo cumple 23 años</p>
+
+      <div class="gallery her-gallery">
+        <div class="gallery-card tall"> <img src="jager.jpg" alt="Foto de ella 1" /></div>
+        <div class="gallery-card tall"> <img src="beca.jpg" alt="Foto de ella 2" /></div>
+        <div class="gallery-card tall"> <img src="natu2.jpg" alt="Foto de ella 3" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESEO -->
+  <section class="section wish">
+    <div class="content">
+      <span class="small-label">Mi deseo</span>
+      <h2>Que nunca olvides lo especial que eres</h2>
+      <p>Espero que hoy recibas tanto amor como el que das, tantas sonrisas como las que provocas, y tanta felicidad como la que mereces.</p>
+      <p>Que este cumpleaños lo disfrutes y mucho mi amor, que tu sonrisa no falte y que nunca olvides que eres una persona que vale millones, una persona que no solo vale la pena, vale la vida entera.</p>
+      <p class="heart">🎂✨</p>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="section final">
+    <div class="content">
+      <span class="small-label">Con todo mi cariño</span>
+      <h2>Te amo</h2>
+      <p>Gracias por ser tú, por quedarte, por compartir conmigo, por hacer que los días normales también se sientan especiales. </p>
+      <p></p>Gracias por la oportunidad de ser parte de tu vida, de permitirme estar a tu lado, y ser parte de esta fecha tan importante.</p>
+      <p>Feliz cumpleaños, Mariana Garro Álvarez. Que sea el primero de muchos juntos.</p>
+      <button class="love-button" id="loveButton">Presiona aquí muchas veces❤️</button>
+    </div>
+  </section>
+
+  <script>
+    const song = document.getElementById('song');
+    const btn = document.getElementById('btnMusic');
+    let playing = false;
+
+    window.addEventListener('load', async () => {
+      try {
+        await song.play();
+        playing = true;
+        btn.textContent = '⏸ Música';
+      } catch {
+        btn.textContent = '▶ Música';
+      }
+    });
+
+    btn.addEventListener('click', async () => {
+      if (playing) {
+        song.pause();
+        btn.textContent = '▶ Música';
+      } else {
+        await song.play();
+        btn.textContent = '⏸ Música';
+      }
+      playing = !playing;
+    });
+
+    // Reveal on scroll
+    const contents = document.querySelectorAll('.content');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.25 });
+
+    contents.forEach(content => observer.observe(content));
+
+    // Texto tipo carta / máquina de escribir
+    const typewriterText = document.getElementById('typewriterText');
+    const letterMessage = `No quería que este fuera solo un mensaje más de cumpleaños.\n\nA pesar de las dificultades de la vida, y que no la tuviste fácil, lograste convertirte en este modelo a seguir que sos hoy.\n\nGracias por nacer, la vida no sería igual sin Mariana. Te amo.`;
+    let typeIndex = 0;
+    let hasTyped = false;
+
+    const typeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasTyped) {
+          hasTyped = true;
+          typeLetter();
+        }
+      });
+    }, { threshold: 0.45 });
+
+    typeObserver.observe(document.querySelector('.letter'));
+
+    function typeLetter() {
+      if (typeIndex < letterMessage.length) {
+        typewriterText.textContent += letterMessage.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(typeLetter, 45);
+      }
+    }
+
+    // Botón final: explosión de corazones
+    const loveButton = document.getElementById('loveButton');
+
+    loveButton.addEventListener('click', () => {
+      for (let i = 0; i < 36; i++) {
+        const heart = document.createElement('span');
+        heart.className = 'burst-heart';
+        heart.textContent = ['❤️', '💖', '💕', '💗'][Math.floor(Math.random() * 4)];
+        heart.style.setProperty('--x', `${Math.random() * 360 - 180}px`);
+        heart.style.setProperty('--y', `${Math.random() * -420 - 80}px`);
+        heart.style.setProperty('--r', `${Math.random() * 220 - 110}deg`);
+        heart.style.left = `${50 + (Math.random() * 18 - 9)}%`;
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 1800);
+      }
+    });
+  </script>
+
+</body>
+</html>
